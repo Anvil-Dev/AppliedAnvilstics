@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "icu.takeneko.appliedanvilstics.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AE2BatchCrafterBlockEntityMixin",
+    "AE2BatchCrafterBlockMixin"
+  ],
+  "client": [
+    "TransparentCraftingTableBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
