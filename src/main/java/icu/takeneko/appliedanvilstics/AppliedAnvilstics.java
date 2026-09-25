@@ -1,20 +1,18 @@
 package icu.takeneko.appliedanvilstics;
 
+import com.mojang.logging.LogUtils;
 import com.tterrag.registrate.Registrate;
 import guideme.Guide;
+import icu.takeneko.appliedanvilstics.all.AACreativeTabs;
 import icu.takeneko.appliedanvilstics.all.AAItems;
 import icu.takeneko.appliedanvilstics.config.AAConfig;
-import icu.takeneko.appliedanvilstics.all.AACreativeTabs;
 import icu.takeneko.appliedanvilstics.data.AADataGen;
 import net.minecraft.resources.ResourceLocation;
-import org.slf4j.Logger;
-
-import com.mojang.logging.LogUtils;
-
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.ModContainer;
+import org.slf4j.Logger;
 
 @Mod(AppliedAnvilstics.MODID)
 public class AppliedAnvilstics {

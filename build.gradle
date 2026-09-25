@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.121'
+    id 'net.neoforged.moddev' version '2.0.140'
     id 'idea'
 }
 
@@ -20,9 +20,23 @@ group = mod_group_id
 repositories {
     mavenLocal()
     mavenCentral()
-    maven {
-        name = "Cjsah Maven"
-        url = "https://server.cjsah.net:1002/maven/"
+    exclusiveContent {
+        forRepositories(
+                mavenCentral(),
+                maven {
+                    name = "Cjsah Maven"
+                    url = "https://server.cjsah.net:1002/maven/releases/"
+                    content {
+                        includeGroup "dev.anvilcraft.lib"
+                        includeGroup "dev.anvilcraft.resource"
+                    }
+                }
+        )
+        filter {
+            includeGroup "dev.anvilcraft.lib"
+            includeGroup "dev.anvilcraft.resource"
+            includeGroup "dev.dubhe"
+        }
     }
     maven {
         name = "Modrinth Maven"
@@ -65,8 +79,11 @@ repositories {
         url "https://maven.k-4u.nl"
     }
     maven {
-        name = "OctoStudios Maven"
-        url = uri("https://maven.octo-studios.com/releases")
+        name = "Curios API Maven"
+        url = uri("https://maven.theillusivec4.top/")
+        content {
+            includeGroup "top.theillusivec4.curios"
+        }
     }
 }
 
@@ -162,16 +179,17 @@ configurations {
 
 dependencies {
     api(libs.registrate)
-    implementation(libs.anvillib) { transitive = false }
-    //interfaceInjectionData(libs.anvillib)
+    api(libs.anvillib)
+    interfaceInjectionData(libs.anvillibRecipe)
+    interfaceInjectionData(libs.anvillibMoveableEntityBlock)
+    api(libs.ageratum)
     implementation(libs.anvilcraft) { transitive = false }
-    //interfaceInjectionData(libs.anvilcraft)
+    interfaceInjectionData(libs.anvilcraft) { transitive = false }
     implementation(libs.curios)
     compileOnlyApi(libs.jeiCommonApi)
     compileOnlyApi(libs.jeiForgeApi)
     implementation(libs.jeiForgeImpl)
     implementation(libs.jade)
-    implementation(libs.patchouli)
 
     implementation "org.appliedenergistics:appliedenergistics2:19.2.17"
     implementation "org.appliedenergistics:guideme:21.1.15"

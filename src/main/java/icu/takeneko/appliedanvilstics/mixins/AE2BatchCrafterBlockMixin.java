@@ -3,13 +3,13 @@ package icu.takeneko.appliedanvilstics.mixins;
 import appeng.items.misc.WrappedGenericStack;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.dubhe.anvilcraft.block.BatchCrafterBlock;
+import dev.dubhe.anvilcraft.block.batch.BaseBatchCraftingBlock;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(BatchCrafterBlock.class)
+@Mixin(BaseBatchCraftingBlock.class)
 abstract class AE2BatchCrafterBlockMixin {
     @WrapOperation(
         method = "onRemove",

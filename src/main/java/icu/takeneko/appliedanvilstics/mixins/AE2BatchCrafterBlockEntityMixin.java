@@ -8,16 +8,14 @@ import appeng.api.stacks.KeyCounter;
 import appeng.blockentity.crafting.IMolecularAssemblerSupportedPattern;
 import appeng.crafting.pattern.AECraftingPattern;
 import dev.dubhe.anvilcraft.api.DeferTaskSubmittable;
-import dev.dubhe.anvilcraft.api.itemhandler.PollableFilteredItemStackHandler;
-import dev.dubhe.anvilcraft.block.entity.BatchCrafterBlockEntity;
+import icu.takeneko.appliedanvilstics.api.DeferredTaskQueue;
+import dev.dubhe.anvilcraft.block.entity.batch.BatchCrafterBlockEntity;
 import dev.dubhe.anvilcraft.init.block.ModBlocks;
-import dev.dubhe.anvilcraft.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,9 +23,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -37,21 +32,20 @@ import java.util.function.Consumer;
 @Mixin(BatchCrafterBlockEntity.class)
 public abstract class AE2BatchCrafterBlockEntityMixin
     extends BlockEntity
-    implements ICraftingMachine, IMolecularAssemblerSupportedPattern.CraftingGridAccessor, DeferTaskSubmittable<BatchCrafterBlockEntity> {
-
-    @Shadow
-    @Final
-    private PollableFilteredItemStackHandler itemHandler;
-
-    @Shadow
-    protected abstract boolean ejectItems(ItemStack result, List<ItemStack> craftRemaining, Direction direction);
+    implements ICraftingMachine, IMolecularAssemblerSupportedPattern.CraftingGridAccessor,
+    DeferTaskSubmittable<BatchCrafterBlockEntity>, DeferredTaskQueue<BatchCrafterBlockEntity> {
 
     @Shadow
     @Final
     private CraftingContainer craftingContainer;
-    @Unique
-    private final Deque<Consumer<BatchCrafterBlockEntity>> anvilcraft$deferredTasks = new ArrayDeque<>();
 
+    @Unique
+    private final Deque<Consumer<BatchCrafterBlockEntity>> appliedanvilstics$deferredTasks = new ArrayDeque<>();
+
+    @Unique
+    private BaseBatchCraftingBlockEntityAccessor appliedanvilstics$baseAccessor() {
+        return (BaseBatchCraftingBlockEntityAccessor) (Object) this;
+    }
 
     public AE2BatchCrafterBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
@@ -70,7 +64,8 @@ public abstract class AE2BatchCrafterBlockEntityMixin
         KeyCounter[] inputs,
         Direction ejectionDirection
     ) {
-        if (patternDetails instanceof AECraftingPattern pattern && this.itemHandler.isEmpty()) {
+        var handler = this.appliedanvilstics$baseAccessor().appliedanvilstics$getHandler();
+        if (patternDetails instanceof AECraftingPattern pattern && handler.isEmpty()) {
             pattern.fillCraftingGrid(inputs, this);
             if (this.level == null) return true;
             if (this.level.isClientSide) {
@@ -80,10 +75,11 @@ public abstract class AE2BatchCrafterBlockEntityMixin
                 this.anvilcraft$submitTask(it -> {
                     ItemStack result = pattern.assemble(this.craftingContainer.asCraftInput(), level);
                     if (result.isEmpty()) return;
-                    this.ejectItems(result, List.of(), ejectionDirection);
+                    this.appliedanvilstics$baseAccessor()
+                        .appliedanvilstics$invokeEjectItems(result, List.of(), ejectionDirection);
                     int amount = Math.toIntExact(result.getCount() / pattern.getOutputs().getFirst().amount());
-                    for (int i = 0; i < itemHandler.getSlots(); i++) {
-                        itemHandler.extractItem(i, amount, false);
+                    for (int i = 0; i < handler.getSlots(); i++) {
+                        handler.extractItem(i, amount, false);
                     }
                 });
             }
@@ -92,28 +88,26 @@ public abstract class AE2BatchCrafterBlockEntityMixin
         return false;
     }
 
-    @Inject(
-        method = "tick",
-        at = @At("HEAD")
-    )
-    void runDeferredTask(Level level, BlockPos pos, CallbackInfo ci) {
-        for (Consumer<BatchCrafterBlockEntity> deferredTask : this.anvilcraft$deferredTasks) {
-            deferredTask.accept(Util.cast(this));
-        }
-    }
-
     @Override
     public boolean acceptsPlans() {
-        return this.itemHandler.isEmpty();
+        return this.appliedanvilstics$baseAccessor().appliedanvilstics$getHandler().isEmpty();
     }
 
     @Override
     public void set(int slot, ItemStack stack) {
-        this.itemHandler.setStackInSlot(slot, stack);
+        this.appliedanvilstics$baseAccessor().appliedanvilstics$getHandler().setStackInSlot(slot, stack);
     }
 
     @Override
     public void anvilcraft$submitTask(Consumer<BatchCrafterBlockEntity> fn) {
-        anvilcraft$deferredTasks.add(fn);
+        this.appliedanvilstics$deferredTasks.add(fn);
+    }
+
+    @Override
+    public void appliedanvilstics$runDeferredTasks() {
+        BatchCrafterBlockEntity self = (BatchCrafterBlockEntity) (Object) this;
+        while (!this.appliedanvilstics$deferredTasks.isEmpty()) {
+            this.appliedanvilstics$deferredTasks.poll().accept(self);
+        }
     }
 }

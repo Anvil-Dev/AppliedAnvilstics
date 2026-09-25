@@ -1,9 +1,9 @@
 package icu.takeneko.appliedanvilstics.mixins;
 
 import dev.dubhe.anvilcraft.block.TransparentCraftingTableBlock;
-import guideme.internal.GuideME;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,22 +15,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(TransparentCraftingTableBlock.class)
 public class TransparentCraftingTableBlockMixin {
     @Unique
-    private static final Class<?> FakeForwardingServerLevel;
-
-    static {
-        try {
-            FakeForwardingServerLevel = GuideME.class.getClassLoader().loadClass("guideme.scene.element.FakeForwardingServerLevel");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private static final String[] APPLIEDANVILSTICS$PREVIEW_ACCESSORS = {
+        // GuideME 手册的结构预览
+        "guideme.scene.element.FakeForwardingServerLevel",
+        // Ageratum（铁砧工艺指南）的结构预览
+        "dev.anvilcraft.resource.ageratum.client.util.level.DelegatingServerLevelAccessor"
+    };
 
     @Inject(
         method = "updateShape",
         at = @At("HEAD"),
         cancellable = true
     )
-    void guideMeCompat(
+    void appliedanvilstics$keepPreviewShape(
         BlockState state,
         Direction direction,
         BlockState neighborState,
@@ -39,9 +36,20 @@ public class TransparentCraftingTableBlockMixin {
         BlockPos neighborPos,
         CallbackInfoReturnable<BlockState> cir
     ) {
-        if (FakeForwardingServerLevel.isInstance(level)) {
+        // 手册的结构预览在虚拟的关卡访问器中放置方块，它不是真正的世界。
+        // 通透工作台重算矩阵需要一个真正的 Level，此时保留结构中已有的方块状态。
+        if (this.appliedanvilstics$isGuidePreview(level)) {
             cir.setReturnValue(state);
-            cir.cancel();
         }
+    }
+
+    @Unique
+    private boolean appliedanvilstics$isGuidePreview(LevelAccessor level) {
+        if (level instanceof Level) return false;
+        String name = level.getClass().getName();
+        for (String previewAccessor : APPLIEDANVILSTICS$PREVIEW_ACCESSORS) {
+            if (previewAccessor.equals(name)) return true;
+        }
+        return false;
     }
 }
