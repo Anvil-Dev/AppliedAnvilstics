@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AE2BatchCrafterBlockEntityMixin",
+    "AE2BatchCutterBlockEntityMixin",
     "AE2BatchCrafterBlockMixin",
     "BaseBatchCraftingBlockEntityAccessor",
     "BaseBatchCraftingBlockEntityMixin"

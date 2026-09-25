@@ -23,5 +23,11 @@ public final class CapabilitiesEventListener {
             ModBlockEntities.BATCH_CRAFTER.get(),
             (blockEntity, side) -> blockEntity instanceof ICraftingMachine machine ? machine : null
         );
+        // 批量切石机同样通过该能力接收 AE2 切石配方样板。
+        event.registerBlockEntity(
+            AECapabilities.CRAFTING_MACHINE,
+            ModBlockEntities.BATCH_CUTTER.get(),
+            (blockEntity, side) -> blockEntity instanceof ICraftingMachine machine ? machine : null
+        );
     }
 }
