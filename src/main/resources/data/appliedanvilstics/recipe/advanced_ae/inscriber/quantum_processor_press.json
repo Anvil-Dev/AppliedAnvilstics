@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "advanced_ae"
+    }
+  ],
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "minecraft:iron_block"
+    },
+    {
+      "items": "advanced_ae:quantum_processor_press"
+    }
+  ],
+  "results": [
+    {
+      "id": "advanced_ae:quantum_processor_press"
+    },
+    {
+      "id": "advanced_ae:quantum_processor_press"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "advanced_ae"
+    }
+  ],
+  "type": "anvilcraft:item_crush",
+  "ingredients": [
+    {
+      "items": "advanced_ae:shattered_singularity"
+    }
+  ],
+  "results": [
+    {
+      "id": "advanced_ae:quantum_infused_dust"
+    }
+  ]
+}

@@ -85,6 +85,14 @@ repositories {
             includeGroup "top.theillusivec4.curios"
         }
     }
+    // Advanced AE 依赖 GeckoLib
+    maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+        content {
+            includeGroup "software.bernie.geckolib"
+        }
+    }
 }
 
 base {
@@ -193,6 +201,15 @@ dependencies {
 
     implementation "org.appliedenergistics:appliedenergistics2:19.2.17"
     implementation "org.appliedenergistics:guideme:21.1.15"
+
+    // ===== 可选兼容：Advanced AE =====
+    localRuntime "maven.modrinth:advancedae:1.6.12-1.21.1"
+    localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4"
+    localRuntime "io.github.pedroksl:ae2addonlib:1.0.3-1.21.1"
+
+    // ===== 可选兼容：Extended AE =====
+    localRuntime "maven.modrinth:extended-ae:1.21-2.2.35-neoforge"
+    localRuntime "maven.modrinth:glodium:1.21-2.2-neoforge"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

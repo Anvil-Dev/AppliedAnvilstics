@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "advanced_ae"
+    }
+  ],
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "ae2:logic_processor_press"
+    },
+    {
+      "items": "advanced_ae:shattered_singularity"
+    },
+    {
+      "items": "ae2:engineering_processor_press"
+    }
+  ],
+  "results": [
+    {
+      "id": "advanced_ae:quantum_processor_press"
+    }
+  ]
+}

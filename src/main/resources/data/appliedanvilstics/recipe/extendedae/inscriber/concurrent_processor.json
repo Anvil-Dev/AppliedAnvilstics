@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "extendedae"
+    }
+  ],
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "#c:dusts/redstone"
+    },
+    {
+      "items": "extendedae:concurrent_processor_print"
+    },
+    {
+      "items": "ae2:printed_silicon"
+    }
+  ],
+  "results": [
+    {
+      "id": "extendedae:concurrent_processor"
+    }
+  ]
+}

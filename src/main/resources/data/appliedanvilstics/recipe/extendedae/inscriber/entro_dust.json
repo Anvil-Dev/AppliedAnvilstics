@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "extendedae"
+    }
+  ],
+  "type": "anvilcraft:item_crush",
+  "ingredients": [
+    {
+      "items": "#c:gems/entro"
+    }
+  ],
+  "results": [
+    {
+      "id": "extendedae:entro_dust"
+    }
+  ]
+}

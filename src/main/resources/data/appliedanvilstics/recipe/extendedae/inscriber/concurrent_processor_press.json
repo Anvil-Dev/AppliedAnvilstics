@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "extendedae"
+    }
+  ],
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "count": 3,
+      "items": "minecraft:ender_eye"
+    },
+    {
+      "count": 4,
+      "items": "#c:gems/entro"
+    },
+    {
+      "items": "ae2:silicon_press"
+    }
+  ],
+  "results": [
+    {
+      "id": "extendedae:concurrent_processor_press"
+    }
+  ]
+}

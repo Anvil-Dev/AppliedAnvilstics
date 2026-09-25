@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "extendedae"
+    }
+  ],
+  "type": "anvilcraft:solid_liquid",
+  "fluid": "minecraft:water",
+  "ingredients": [
+    {
+      "items": "extendedae:entro_dust"
+    },
+    {
+      "items": "#c:ingots/gold"
+    },
+    {
+      "items": "minecraft:lapis_lazuli"
+    }
+  ],
+  "results": [
+    {
+      "id": "extendedae:entro_ingot"
+    }
+  ]
+}

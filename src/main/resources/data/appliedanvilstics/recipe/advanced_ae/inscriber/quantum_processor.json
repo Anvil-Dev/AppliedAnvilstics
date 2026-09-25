@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "advanced_ae"
+    }
+  ],
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "#c:dusts/redstone"
+    },
+    {
+      "items": "advanced_ae:printed_quantum_processor"
+    },
+    {
+      "items": "ae2:printed_silicon"
+    }
+  ],
+  "results": [
+    {
+      "id": "advanced_ae:quantum_processor"
+    }
+  ]
+}
