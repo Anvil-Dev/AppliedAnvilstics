@@ -1,0 +1,12 @@
+{
+  "type": "anvilcraft:charger_charging",
+  "ingredient": {
+    "item": "minecraft:book"
+  },
+  "power": -8,
+  "result": {
+    "count": 1,
+    "id": "ae2:guide"
+  },
+  "time": 4
+}

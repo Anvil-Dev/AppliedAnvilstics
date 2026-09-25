@@ -1,0 +1,18 @@
+{
+  "type": "anvilcraft:solid_liquid",
+  "fluid": "minecraft:water",
+  "ingredients": [
+    {
+      "items": "ae2:charged_certus_quartz_crystal"
+    },
+    {
+      "items": "ae2:certus_quartz_dust"
+    }
+  ],
+  "results": [
+    {
+      "count": 2,
+      "id": "ae2:certus_quartz_crystal"
+    }
+  ]
+}

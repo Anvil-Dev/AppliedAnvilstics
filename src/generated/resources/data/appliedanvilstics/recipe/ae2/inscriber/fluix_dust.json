@@ -1,0 +1,13 @@
+{
+  "type": "anvilcraft:item_crush",
+  "ingredients": [
+    {
+      "items": "#c:gems/fluix"
+    }
+  ],
+  "results": [
+    {
+      "id": "ae2:fluix_dust"
+    }
+  ]
+}

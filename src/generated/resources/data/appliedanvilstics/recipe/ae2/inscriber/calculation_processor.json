@@ -1,0 +1,19 @@
+{
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "minecraft:redstone"
+    },
+    {
+      "items": "ae2:printed_calculation_processor"
+    },
+    {
+      "items": "ae2:printed_silicon"
+    }
+  ],
+  "results": [
+    {
+      "id": "ae2:calculation_processor"
+    }
+  ]
+}

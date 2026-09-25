@@ -1,0 +1,13 @@
+{
+  "type": "anvilcraft:item_crush",
+  "ingredients": [
+    {
+      "items": "#c:gems/certus_quartz"
+    }
+  ],
+  "results": [
+    {
+      "id": "ae2:certus_quartz_dust"
+    }
+  ]
+}

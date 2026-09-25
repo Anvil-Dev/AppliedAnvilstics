@@ -1,0 +1,13 @@
+{
+  "type": "anvilcraft:item_crush",
+  "ingredients": [
+    {
+      "items": "ae2:sky_stone_block"
+    }
+  ],
+  "results": [
+    {
+      "id": "ae2:sky_dust"
+    }
+  ]
+}

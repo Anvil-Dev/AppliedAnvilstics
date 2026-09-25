@@ -1,0 +1,19 @@
+{
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "minecraft:iron_block"
+    },
+    {
+      "items": "ae2:silicon_press"
+    }
+  ],
+  "results": [
+    {
+      "id": "ae2:silicon_press"
+    },
+    {
+      "id": "ae2:silicon_press"
+    }
+  ]
+}

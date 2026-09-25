@@ -1,0 +1,19 @@
+{
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "minecraft:redstone"
+    },
+    {
+      "items": "ae2:printed_logic_processor"
+    },
+    {
+      "items": "ae2:printed_silicon"
+    }
+  ],
+  "results": [
+    {
+      "id": "ae2:logic_processor"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "anvilcraft:stamping",
+  "ingredients": [
+    {
+      "items": "#c:ingots/gold"
+    },
+    {
+      "items": "ae2:logic_processor_press"
+    }
+  ],
+  "results": [
+    {
+      "id": "ae2:logic_processor_press"
+    },
+    {
+      "id": "ae2:printed_logic_processor"
+    }
+  ]
+}
