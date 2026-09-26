@@ -1,0 +1,25 @@
+dependencies {
+    api(libs.anvillib)
+    interfaceInjectionData(libs.anvillibRecipe)
+    interfaceInjectionData(libs.anvillibMoveableEntityBlock)
+    api(libs.ageratum)
+    implementation(libs.anvilcraft) { transitive = false }
+    interfaceInjectionData(libs.anvilcraft) { transitive = false }
+    implementation(libs.curios)
+    compileOnlyApi(libs.jeiCommonApi)
+    compileOnlyApi(libs.jeiForgeApi)
+    implementation(libs.jeiForgeImpl)
+    implementation(libs.jade)
+
+    implementation(libs.ae2)
+    implementation(libs.guideme)
+
+    // 可选兼容：Advanced AE
+//    localRuntime "maven.modrinth:advancedae:1.6.12-1.21.1"
+//    localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4"
+//    localRuntime "io.github.pedroksl:ae2addonlib:1.0.3-1.21.1"
+
+    // 可选兼容：Extended AE
+//    localRuntime "maven.modrinth:extended-ae:1.21-2.2.35-neoforge"
+//    localRuntime "maven.modrinth:glodium:1.21-2.2-neoforge"
+}

@@ -1,0 +1,77 @@
+repositories {
+    mavenLocal()
+    exclusiveContent {
+        forRepositories(
+                mavenCentral(),
+                maven { // Anvil Lib
+                    name = "Cjsah Maven"
+                    url = "https://server.cjsah.net:1002/maven/releases/"
+                    content {
+                        includeGroup "dev.anvilcraft.lib"
+                        includeGroup "dev.anvilcraft.resource"
+                        includeGroup "dev.dubhe"
+                    }
+                }
+        )
+        filter {
+            includeGroup "dev.anvilcraft.lib"
+            includeGroup "dev.anvilcraft.resource"
+            includeGroup "dev.dubhe"
+        }
+    }
+    maven {
+        name = "Modrinth Maven"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven {
+        name = "TerraformersMC Maven"
+        url = "https://maven.terraformersmc.com/releases/"
+    }
+    maven {
+        name = "Shedaniel Maven"
+        url = "https://maven.shedaniel.me/"
+    }
+    maven {
+        name = "CurseForge Maven"
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        name = "Ithundxr Maven"
+        url = "https://maven.ithundxr.dev/snapshots"
+    }
+    maven {
+        url 'https://jitpack.io'
+        content {
+            includeGroup "com.github.rtyley"
+        }
+    }
+    maven {
+        name = "k-4u Maven"
+        url "https://maven.k-4u.nl"
+    }
+    maven {
+        name = "Curios API Maven"
+        url = uri("https://maven.theillusivec4.top/")
+        content {
+            includeGroup "top.theillusivec4.curios"
+        }
+    }
+    // Advanced AE 依赖 GeckoLib
+    maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+        content {
+            includeGroup "software.bernie.geckolib"
+        }
+    }
+}

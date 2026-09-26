@@ -1,264 +1,52 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.140'
     id 'idea'
+    alias libs.plugins.modDevGradle
+    alias libs.plugins.lombok
 }
 
-tasks.named('wrapper', Wrapper).configure {
-    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
-    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
-    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
-    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
-    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
-    distributionType = Wrapper.DistributionType.BIN
+String buildType
+String buildNumber = System.getenv("GITHUB_RUN_NUMBER")
+String buildTypeEnv = System.getenv("BUILD_TYPE")
+if (buildTypeEnv == "pr") {
+    buildType = 'pr'
+} else if (buildTypeEnv == "hotfix") {
+    buildType = 'hotfix'
+} else if (buildTypeEnv == "snapshot") {
+    buildType = 'snapshot'
+} else if (buildTypeEnv == "release") {
+    buildType = null
+    buildNumber = null
+} else {
+    buildType = 'build'
 }
-
-version = mod_version
+def githubRef = System.getenv("GITHUB_REF")
+if (githubRef != null && githubRef.startsWith("refs/tags/")) {
+    version = githubRef.substring(githubRef.lastIndexOf('/') + 1)
+} else {
+    version = "${mod_version}" + (buildNumber != null ? "+${buildType}.${buildNumber}" : "")
+}
 group = mod_group_id
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-    exclusiveContent {
-        forRepositories(
-                mavenCentral(),
-                maven {
-                    name = "Cjsah Maven"
-                    url = "https://server.cjsah.net:1002/maven/releases/"
-                    content {
-                        includeGroup "dev.anvilcraft.lib"
-                        includeGroup "dev.anvilcraft.resource"
-                    }
-                }
-        )
-        filter {
-            includeGroup "dev.anvilcraft.lib"
-            includeGroup "dev.anvilcraft.resource"
-            includeGroup "dev.dubhe"
-        }
-    }
-    maven {
-        name = "Modrinth Maven"
-        url = "https://api.modrinth.com/maven"
-        content {
-            includeGroup "maven.modrinth"
-        }
-    }
-    maven {
-        name = "TerraformersMC Maven"
-        url = "https://maven.terraformersmc.com/releases/"
-    }
-    maven {
-        name = "Shedaniel Maven"
-        url = "https://maven.shedaniel.me/"
-    }
-    maven {
-        name = "CurseForge Maven"
-        url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-    maven {
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "Ithundxr Maven"
-        url = "https://maven.ithundxr.dev/snapshots"
-    }
-    maven {
-        url 'https://jitpack.io'
-        content {
-            includeGroup "com.github.rtyley"
-        }
-    }
-    maven {
-        name = "k-4u Maven"
-        url "https://maven.k-4u.nl"
-    }
-    maven {
-        name = "Curios API Maven"
-        url = uri("https://maven.theillusivec4.top/")
-        content {
-            includeGroup "top.theillusivec4.curios"
-        }
-    }
-    // Advanced AE 依赖 GeckoLib
-    maven {
-        name = "GeckoLib"
-        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
-        content {
-            includeGroup "software.bernie.geckolib"
-        }
-    }
-}
+apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
+apply from: "$rootDir/gradle/scripts/repositories.gradle"
+apply from: "$rootDir/gradle/scripts/jars.gradle"
+apply from: "$rootDir/gradle/scripts/publishing.gradle"
+apply from: "$rootDir/gradle/scripts/resources.gradle"
+apply from: "$rootDir/dependencies.gradle"
 
-base {
-    archivesName = mod_id
-}
-
-// Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-neoForge {
-    // Specify the version of NeoForge to use.
-    version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
-    // This line is optional. Access Transformers are automatically detected
-    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
-
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
-    runs {
-        client {
-            client()
-
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        server {
-            server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        // This run config launches GameTestServer and runs all registered gametests, then exits.
-        // By default, the server will crash when no gametests are provided.
-        // The gametest system is also enabled by default for other run configs under the /test command.
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        data {
-            data()
-
-            // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
-            // gameDirectory = project.file('run-data')
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        // applies to all the run configs above
-        configureEach {
-            // Recommended logging data for a userdev environment
-            // The markers can be added/remove as needed separated by commas.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
-
-    mods {
-        // define mod <-> source bindings
-        // these are used to tell the game which sources are for which mod
-        // multi mod projects should define one per mod
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
-}
-
-// Include resources generated by data generators.
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-// Sets up a dependency configuration called 'localRuntime'.
-// This configuration should be used instead of 'runtimeOnly' to declare
-// a dependency that will be present for runtime testing but that is
-// "optional", meaning it will not be pulled by dependents of this mod.
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-}
-
-dependencies {
-    api(libs.anvillib)
-    interfaceInjectionData(libs.anvillibRecipe)
-    interfaceInjectionData(libs.anvillibMoveableEntityBlock)
-    api(libs.ageratum)
-    implementation(libs.anvilcraft) { transitive = false }
-    interfaceInjectionData(libs.anvilcraft) { transitive = false }
-    implementation(libs.curios)
-    compileOnlyApi(libs.jeiCommonApi)
-    compileOnlyApi(libs.jeiForgeApi)
-    implementation(libs.jeiForgeImpl)
-    implementation(libs.jade)
-
-    implementation "org.appliedenergistics:appliedenergistics2:19.2.17"
-    implementation "org.appliedenergistics:guideme:21.1.15"
-
-    // 可选兼容：Advanced AE
-//    localRuntime "maven.modrinth:advancedae:1.6.12-1.21.1"
-//    localRuntime "software.bernie.geckolib:geckolib-neoforge-1.21.1:4.8.4"
-//    localRuntime "io.github.pedroksl:ae2addonlib:1.0.3-1.21.1"
-
-    // 可选兼容：Extended AE
-//    localRuntime "maven.modrinth:extended-ae:1.21-2.2.35-neoforge"
-//    localRuntime "maven.modrinth:glodium:1.21-2.2-neoforge"
-}
-
-// This block of code expands all declared replace properties in the specified resource targets.
-// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
-    ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
-// Include the output of "generateModMetadata" as an input directory for the build
-// this works with both building through Gradle and the IDE.
-sourceSets.main.resources.srcDir generateModMetadata
-// To avoid having to run "generateModMetadata" manually, make it run on every project reload
-neoForge.ideSyncTask generateModMetadata
-
-// Example configuration to allow publishing using the maven-publish plugin
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url "file://${project.projectDir}/repo"
-        }
-    }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
 idea {
     module {
         downloadSources = true
         downloadJavadoc = true
     }
+}
+
+lombok {
+    version = "1.18.34"
 }

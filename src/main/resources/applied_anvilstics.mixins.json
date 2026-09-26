@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "dev.anvilcraft.addon.applied_anvilstics.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AE2BatchCrafterBlockEntityMixin",
+    "AE2BatchCutterBlockEntityMixin",
+    "AE2BatchCrafterBlockMixin",
+    "BaseBatchCraftingBlockEntityAccessor",
+    "BaseBatchCraftingBlockEntityMixin"
+  ],
+  "client": [
+    "TransparentCraftingTableBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
