@@ -6,8 +6,8 @@ on:
       - releases/**
       - dev/**
     paths:
+      - gradle/scripts/**
       - src/**
-      - gradle/**
       - build.gradle
       - dependencies.gradle
       - gradle.properties
