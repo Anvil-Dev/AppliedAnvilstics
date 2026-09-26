@@ -1,6 +1,6 @@
 package icu.takeneko.appliedanvilstics.data;
 
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import dev.anvilcraft.lib.v2.registrum.providers.RegistrumRecipeProvider;
 import icu.takeneko.appliedanvilstics.data.recipe.AAChargerChargingRecipeLoader;
 import icu.takeneko.appliedanvilstics.data.recipe.AAItemCrushRecipeLoader;
 import icu.takeneko.appliedanvilstics.data.recipe.AASolidLiquidRecipeLoader;
@@ -10,7 +10,7 @@ public final class AARecipes {
     private AARecipes() {
     }
 
-    public static void setupRecipes(RegistrateRecipeProvider provider) {
+    public static void setupRecipes(RegistrumRecipeProvider provider) {
         AAItemCrushRecipeLoader.setupRecipes(provider);
         AAStampingRecipeLoader.setupRecipes(provider);
         AAChargerChargingRecipeLoader.setupRecipes(provider);

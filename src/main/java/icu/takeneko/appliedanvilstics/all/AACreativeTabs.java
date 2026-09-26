@@ -12,7 +12,7 @@ public class AACreativeTabs {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = DR.register(
         "tab",
         () -> CreativeModeTab.builder()
-            .title(AppliedAnvilstics.REGISTRATE.addRawLang("itemGroup.appliedanvilstics.tab", "Applied Anvilstics"))
+            .title(AppliedAnvilstics.REGISTRUM.addRawLang("itemGroup.appliedanvilstics.tab", "Applied Anvilstics"))
             .icon(AAItems.GUIDE.asItem()::getDefaultInstance)
             .build()
     );

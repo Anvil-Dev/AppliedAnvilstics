@@ -186,7 +186,6 @@ configurations {
 }
 
 dependencies {
-    api(libs.registrate)
     api(libs.anvillib)
     interfaceInjectionData(libs.anvillibRecipe)
     interfaceInjectionData(libs.anvillibMoveableEntityBlock)

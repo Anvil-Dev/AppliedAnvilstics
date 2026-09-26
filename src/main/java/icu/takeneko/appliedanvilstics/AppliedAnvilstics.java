@@ -1,7 +1,7 @@
 package icu.takeneko.appliedanvilstics;
 
 import com.mojang.logging.LogUtils;
-import com.tterrag.registrate.Registrate;
+import dev.anvilcraft.lib.v2.registrum.Registrum;
 import guideme.Guide;
 import icu.takeneko.appliedanvilstics.all.AACreativeTabs;
 import icu.takeneko.appliedanvilstics.all.AAItems;
@@ -18,13 +18,13 @@ import org.slf4j.Logger;
 public class AppliedAnvilstics {
     public static final String MODID = "appliedanvilstics";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final Registrate REGISTRATE = Registrate.create(MODID);
+    public static final Registrum REGISTRUM = Registrum.create(MODID);
 
     public AppliedAnvilstics(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, AAConfig.SPEC);
 
         setupRegistration(modEventBus);
-        AADataGen.setupDataGeneration(REGISTRATE);
+        AADataGen.setupDataGeneration(REGISTRUM);
     }
 
     public static void setupRegistration(IEventBus modBus) {
