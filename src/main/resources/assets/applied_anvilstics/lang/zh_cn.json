@@ -1,3 +1,8 @@
 {
-  "component_content.anvilcraft.mod_name.applied_anvilstics": "应用铁砧学"
+  "component_content.anvilcraft.mod_name.applied_anvilstics": "应用铁砧学",
+  "item.applied_anvilstics.guide": "应用铁砧学指南",
+  "itemGroup.appliedanvilstics.tab": "应用铁砧学",
+  "applied_anvilstics.configuration.title": "应用铁砧学配置",
+  "applied_anvilstics.configuration.section.applied.anvilstics.common.toml": "应用铁砧学通用配置",
+  "applied_anvilstics.configuration.section.applied.anvilstics.common.toml.title": "应用铁砧学通用配置"
 }

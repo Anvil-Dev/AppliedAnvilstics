@@ -1,4 +1,7 @@
 {
+  "applied_anvilstics.configuration.section.applied.anvilstics.common.toml": "Applied Anvilstics Common Configuration",
+  "applied_anvilstics.configuration.section.applied.anvilstics.common.toml.title": "Applied Anvilstics Common Configuration",
+  "applied_anvilstics.configuration.title": "Applied Anvilstics Configuration",
   "item.applied_anvilstics.guide": "Guide",
   "itemGroup.appliedanvilstics.tab": "Applied Anvilstics"
 }
