@@ -6,6 +6,7 @@ on:
       - releases/**
       - dev/**
     paths:
+      - .github/workflows/pull_request.yml
       - gradle/scripts/**
       - src/**
       - build.gradle
@@ -77,6 +78,7 @@ jobs:
           mods: build/libs/${{ steps.properties.outputs.mod_id }}-neoforge-${{ steps.version.outputs.version }}.jar
           maven-repos: |
             https://server.cjsah.net:1002/maven/releases/
+            https://repo1.maven.org/maven2/
           maven-mods: |
             dev.dubhe:anvilcraft-neoforge-1.21.1:${{ steps.versions.outputs.versions_anvilcraft }}
             org.appliedenergistics:appliedenergistics2:${{ steps.versions.outputs.versions_ae2 }}
