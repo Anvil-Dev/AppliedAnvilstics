@@ -43,7 +43,7 @@ jobs:
           file: gradle/libs.versions.toml
           fields: |
             versions.minecraft
-            versions.neoforge
+            versions.neoForge
             versions.anvilcraft
             versions.ae2
 
@@ -83,7 +83,7 @@ jobs:
         continue-on-error: false
         with:
           mod_loader: neoforge
-          loader_version: ${{ steps.versions.outputs.versions_neoforge }}
+          loader_version: ${{ steps.versions.outputs.versions_neoForge }}
           mods: build/libs/${{ steps.properties.outputs.mod_id }}-neoforge-${{ steps.version.outputs.version }}.jar
           maven-repos: |
             https://server.cjsah.net:1002/maven/releases/
