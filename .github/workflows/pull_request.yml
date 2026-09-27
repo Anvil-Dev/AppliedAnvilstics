@@ -46,6 +46,7 @@ jobs:
             versions.neoForge
             versions.anvilcraft
             versions.ae2
+            versions.guideme
 
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
@@ -82,3 +83,4 @@ jobs:
           maven-mods: |
             dev.dubhe:anvilcraft-neoforge-1.21.1:${{ steps.versions.outputs.versions_anvilcraft }}
             org.appliedenergistics:appliedenergistics2:${{ steps.versions.outputs.versions_ae2 }}
+            org.appliedenergistics:guideme:${{ steps.versions.outputs.versions_guideme }}
