@@ -20,23 +20,33 @@
 
 - 铁砧工艺的 **批量合成器**与 **批量切石机**现在会作为 AE2 的分子装配室（合成机器）参与自动合成，样板供应器可直接把合成样板与切石样板推送进来。
 
-### 铁砧工艺加工 AE2 系列材料
+### 运行时自动适配 AE2 配方
 
-铁砧工艺的加工方式现在可以处理 AE2 的材料：
+本模组会在数据包加载完成、最终配方表形成后扫描 AE2 及其附属模组的配方，并自动转换成对应的铁砧工艺配方，不需要为每个模组逐条手写兼容配方。
 
-| 加工方式                | 内容                              |
-|---------------------|---------------------------------|
-| 压印 Stamping         | 硅和处理器的压印配方                      |
-| 粉碎 Item Crush       | 磨粉配方                            |
-| 充能 Charger Charging | 充能赛特斯石英水晶、陨石罗盘，以及用书本充能获得 AE2 指南 |
-| 固液反应 Solid–Liquid   | 在水源中发生的各种反应                     |
+| AE2 配方类型          | 转换后的铁砧工艺配方                        | 说明                              |
+|-------------------|-----------------------------------|---------------------------------|
+| `ae2:inscriber`   | `anvilcraft:item_crush`           | 没有上/下模具时，按粉碎处理                  |
+| `ae2:inscriber`   | `anvilcraft:stamping`             | 有模具时按冲压处理；`inscribe` 保留模具，`press` 消耗模具 |
+| `ae2:charger`     | `anvilcraft:charger_charging`     | 自动生成充能配方                        |
+| `ae2:transform`   | `anvilcraft:solid_liquid`         | 仅转换流体环境，不处理爆炸环境                 |
+
+- 扫描对象是最终 `RecipeManager`，因此 Extended AE、Advanced AE 等附属模组只要复用上述 AE2 配方类型，就会自动获得兼容，不存在配方加载先后问题。
+- 自动生成的配方 ID 形如 `applied_anvilstics:generated/ae2/<type>/<namespace>/<path>`，同一次加载中保持稳定。
+- 不同模组添加的新配方会在每次数据包重载时重新扫描并生成。
+
+以下情况不会被自动转换：
+
+- 爆炸环境中的 `ae2:transform` 配方。
+- 带有动态组件、NBT 或动态频率的产物，例如量子纠缠奇点。
+- 附属模组自己的专用配方类型，例如晶体装配机、反应仓、电路切割机等。这类配方仍按需单独适配。
 
 ## 环境要求
 
 - [铁砧工艺 AnvilCraft](https://modrinth.com/mod/anvilcraft)
 - [应用能源2 Applied Energistics 2](https://github.com/AppliedEnergistics/Applied-Energistics-2)
 
-可选兼容：Extended AE、Advanced AE。
+可选兼容：Extended AE、Advanced AE 等复用 AE2 配方类型的附属模组。
 
 ## 安装
 

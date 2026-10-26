@@ -6,6 +6,7 @@
     "AE2BatchCrafterBlockEntityMixin",
     "AE2BatchCutterBlockEntityMixin",
     "AE2BatchCrafterBlockMixin",
+    "AARecipeManagerMixin",
     "BaseBatchCraftingBlockEntityAccessor",
     "BaseBatchCraftingBlockEntityMixin"
   ],
